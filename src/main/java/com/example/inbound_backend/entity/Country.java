@@ -26,11 +26,6 @@ public class Country extends BaseEntity{
     @Column(name = "country_code")
     private String countryCode;
 
-    @Column(name = "short_country_name")
-    private String shortCountryName;
-
-
-
     @OneToMany(mappedBy = "passportIssuedCountry", cascade = {
             CascadeType.DETACH, CascadeType.MERGE,
             CascadeType.PERSIST, CascadeType.REFRESH

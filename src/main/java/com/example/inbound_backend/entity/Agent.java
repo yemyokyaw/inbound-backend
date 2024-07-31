@@ -23,7 +23,7 @@ public class Agent extends BaseEntity{
     private String name;
     private String password;
 
-    @OneToMany(mappedBy = "agent", cascade = {
+    @OneToMany(mappedBy = "agent", fetch = FetchType.EAGER, cascade = {
             CascadeType.DETACH, CascadeType.MERGE,
             CascadeType.PERSIST, CascadeType.REFRESH
     })
