@@ -26,25 +26,25 @@ public class Country extends BaseEntity{
     @Column(name = "country_code")
     private String countryCode;
 
-    @OneToMany(mappedBy = "passportIssuedCountry", cascade = {
+    @OneToMany(mappedBy = "passportIssuedCountry", fetch = FetchType.EAGER, cascade = {
             CascadeType.DETACH, CascadeType.MERGE,
             CascadeType.PERSIST, CascadeType.REFRESH
     })
     private List<InsuredPerson> insuredPersonPassportList;
 
-    @OneToMany(mappedBy = "residentCountry", cascade = {
+    @OneToMany(mappedBy = "residentCountry", fetch =FetchType.EAGER,cascade = {
             CascadeType.DETACH, CascadeType.MERGE,
             CascadeType.PERSIST, CascadeType.REFRESH
     })
     private List<InsuredPerson> insuredPersonResidentList;
 
-    @OneToMany(mappedBy = "residentCountry", cascade = {
+    @OneToMany(mappedBy = "residentCountry", fetch =FetchType.EAGER,cascade = {
             CascadeType.DETACH, CascadeType.MERGE,
             CascadeType.PERSIST, CascadeType.REFRESH
     })
     private List<Beneficiary> beneficiaryList;
 
-    @OneToMany(mappedBy = "journeyfrom", cascade = {
+    @OneToMany(mappedBy = "journeyfrom", fetch =FetchType.EAGER,cascade = {
             CascadeType.DETACH, CascadeType.MERGE,
             CascadeType.PERSIST, CascadeType.REFRESH
     })
