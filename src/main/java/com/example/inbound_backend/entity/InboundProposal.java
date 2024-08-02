@@ -24,13 +24,16 @@ public class InboundProposal extends BaseEntity{
     private String journeyTo ;
     private double serviceFees;
     private Date policyStartDate;
-    private Date getPolicyEndDate;
+    private Date PolicyEndDate;
     private Date submittedDate;
     private int coveragePlan;
     private int premiumRate;
     private String certificateNo;
     private String passportNo;
     private Date passportIssuedDate;
+    private int age;
+    private String insuredName;
+    private int phoneNo;
 
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)

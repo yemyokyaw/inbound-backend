@@ -17,7 +17,6 @@ public class CountryServiceImpl implements CountryService{
     @Override
     public List<CountryDTO> getAllCountry() throws Exception {
 
-
         List<Country> countryList = countryRepository.findAll();
         if(countryList == null) throw new Exception("Country not found");
 

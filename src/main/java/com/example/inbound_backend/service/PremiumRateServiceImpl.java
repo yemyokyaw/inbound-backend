@@ -13,10 +13,12 @@ public class PremiumRateServiceImpl implements PremiumRateService{
 
     @Override
     public PremiumRateDTO getPremiumRate(PremiumRateDTO premiumRateDTO) {
-        PremiumRate premiumRate =  premiumRateRepository.findByDays(premiumRateDTO.getDays());
-        PremiumRateDTO premiumRateDTO1 = new PremiumRateDTO();
-        premiumRateDTO1.setRate(premiumRate.getRate());
+        PremiumRate premiumRate =  premiumRateRepository.findByDays(premiumRateDTO.getDays(),premiumRateDTO.getAge());
+        PremiumRateDTO rateDTO = new PremiumRateDTO();
+        rateDTO.setRate(premiumRate.getRate());
+        rateDTO.setDays(premiumRate.getDays());
+        rateDTO.setAge(premiumRateDTO.getAge());
 
-        return premiumRateDTO1;
+        return rateDTO;
     }
 }
