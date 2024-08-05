@@ -15,9 +15,11 @@ public class ProposalController {
     private ProposalService proposalService;
 
     @PostMapping("/proposal")
-    public List<ProposalDTO> findall(@ModelAttribute ProposalDTO proposalDTO) throws Exception{
+    public List<ProposalDTO> findall(@RequestBody ProposalDTO proposalDTO) throws Exception{
         return proposalService.findAllProposal(proposalDTO);
     }
+
+
 
 
 }
