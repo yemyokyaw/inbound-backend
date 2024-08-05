@@ -30,6 +30,7 @@ public class InboundProposal extends BaseEntity{
     private int premiumRate;
     private String certificateNo;
     private String passportNo;
+    private String passportIssuedCountry;
     private Date passportIssuedDate;
     private int age;
     private String insuredName;
