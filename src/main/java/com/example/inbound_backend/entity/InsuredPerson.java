@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -21,14 +22,14 @@ public class InsuredPerson extends BaseEntity {
     @Column(name = "id")
     private String id;
     private String name;
-    private Date dob;
+    private LocalDate dob;
     private String gender;
     private String localAddress;
     private String foreignAddress;
     private String email;
     private int phoneNo;
     private String passportNo;
-    private Date passportIssuedDate;
+    private LocalDate passportIssuedDate;
     private Boolean isChild;
 
     @ManyToOne(cascade = {

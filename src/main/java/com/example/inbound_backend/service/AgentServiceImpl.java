@@ -1,8 +1,8 @@
 package com.example.inbound_backend.service;
 
 import com.example.inbound_backend.dto.AgentDTO;
-import com.example.inbound_backend.repository.AgentRepository;
 import com.example.inbound_backend.entity.Agent;
+import com.example.inbound_backend.repository.AgentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +25,6 @@ public class AgentServiceImpl implements AgentService {
 
         return aDTO;
     }
-
 
 }
 

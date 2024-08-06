@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -19,19 +20,19 @@ public class InboundProposal extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
-    private Date arrivalDate;
+    private LocalDate arrivalDate;
     @Column(columnDefinition = "varchar(255) default 'MYANMAR'")
-    private String journeyTo ;
+    private String journeyTo = "MYANMAR" ;
     private double serviceFees;
-    private Date policyStartDate;
-    private Date PolicyEndDate;
-    private Date submittedDate;
+    private LocalDate policyStartDate;
+    private LocalDate PolicyEndDate;
+    private LocalDate submittedDate;
     private int coveragePlan;
     private int premiumRate;
     private String certificateNo;
     private String passportNo;
     private String passportIssuedCountry;
-    private Date passportIssuedDate;
+    private LocalDate passportIssuedDate;
     private int age;
     private String insuredName;
     private int phoneNo;

@@ -1,13 +1,9 @@
 package com.example.inbound_backend.service;
 
 import com.example.inbound_backend.dto.ProposalDTO;
-import com.example.inbound_backend.entity.Beneficiary;
-import com.example.inbound_backend.entity.InboundProposal;
-import com.example.inbound_backend.entity.InsuredPerson;
-import com.example.inbound_backend.repository.BeneficiaryRepository;
-import com.example.inbound_backend.repository.InboundProposalRepository;
+import com.example.inbound_backend.entity.*;
+import com.example.inbound_backend.repository.*;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -18,9 +14,20 @@ public class ProposalServiceImpl implements ProposalService{
     private InboundProposalRepository inboundProposalRepository;
     private BeneficiaryRepository beneficiaryRepository;
 
-    public ProposalServiceImpl(InboundProposalRepository inboundProposalRepository, BeneficiaryRepository beneficiaryRepository) {
+    private ChildRepository childRepository;
+
+    private InsuredPersonRepository insuredPersonRepository;
+    private AgentRepository agentRepository;
+
+    private CountryRepository countryRepository;
+
+    public ProposalServiceImpl(InboundProposalRepository inboundProposalRepository, BeneficiaryRepository beneficiaryRepository, ChildRepository childRepository, InsuredPersonRepository insuredPersonRepository, CountryRepository countryRepository, AgentRepository agentRepository) {
         this.inboundProposalRepository = inboundProposalRepository;
         this.beneficiaryRepository = beneficiaryRepository;
+        this.childRepository = childRepository;
+        this.insuredPersonRepository = insuredPersonRepository;
+        this.countryRepository = countryRepository;
+        this.agentRepository = agentRepository;
     }
 
     @Override
@@ -32,7 +39,7 @@ public class ProposalServiceImpl implements ProposalService{
        for (InboundProposal p : proposals){
            ProposalDTO proposalDTO = new ProposalDTO();
            proposalDTO.setCertificateNo(p.getCertificateNo());
-           proposalDTO.setName(p.getInsuredName());
+           proposalDTO.setInsuredPersonName(p.getInsuredName());
            proposalDTO.setAge(p.getAge());
            proposalDTO.setPhoneNo(p.getPhoneNo());
            proposalDTO.setCoveragePlan(p.getCoveragePlan());
@@ -40,6 +47,8 @@ public class ProposalServiceImpl implements ProposalService{
            proposalDTO.setSubmittedDate(p.getSubmittedDate());
            proposalDTO.setPassportNo(p.getPassportNo());
            proposalDTOList.add(proposalDTO);
+
+
        }
        return proposalDTOList;
     }
@@ -49,19 +58,79 @@ public class ProposalServiceImpl implements ProposalService{
     public void createProposal(ProposalDTO proposalDTO) {
         Beneficiary beneficiary = new Beneficiary();
         beneficiary.setName(proposalDTO.getBeneficiaryName());
-        beneficiary.setGender(proposalDTO.getGender());
-        beneficiary.setDob(proposalDTO.getDob());
+        beneficiary.setGender(proposalDTO.getBeneficiaryGender());
+        beneficiary.setDob(proposalDTO.getBeneficiarydob());
         beneficiary.setNin(proposalDTO.getNin());
         beneficiary.setAddress(proposalDTO.getAddress());
-        beneficiary.setAddress(proposalDTO.getAddress());
-        beneficiary.setPhoneNo(proposalDTO.getPhoneNo());
+        beneficiary.setPhoneNo(proposalDTO.getBeneficiaryPhNo());
         beneficiary.setRelationship(proposalDTO.getRelationship());
+        beneficiary.setEmail(proposalDTO.getBeneficiaryEmail());
 
         beneficiaryRepository.save(beneficiary);
 
         InsuredPerson insuredPerson = new InsuredPerson();
+        insuredPerson.setName(proposalDTO.getInsuredPersonName());
+        insuredPerson.setDob(proposalDTO.getInsuredPersondob());
+        insuredPerson.setGender(proposalDTO.getInsuredPersongender());
+        insuredPerson.setLocalAddress(proposalDTO.getLocaladdress());
+        insuredPerson.setForeignAddress(proposalDTO.getForeignAddress());
+        insuredPerson.setEmail(proposalDTO.getInsuredPersonEmail());
+        insuredPerson.setPhoneNo(proposalDTO.getInsuredPersonPhNo());
+        insuredPerson.setPassportNo(proposalDTO.getPassportNo());
+        insuredPerson.setPassportIssuedDate(proposalDTO.getPassportIssuedDate());
+        insuredPerson.setIsChild(proposalDTO.getIsChild());
 
+        insuredPerson.setBeneficiary(beneficiary);
+
+        insuredPersonRepository.save(insuredPerson);
+
+
+        //child
+
+        Child child = null;
+        if (proposalDTO.getIsChild()) {
+            child = new Child();
+            child.setName(proposalDTO.getChildName());
+            child.setDob(proposalDTO.getChildDob());
+            child.setGender(proposalDTO.getChildGender());
+            child.setGurdianceName(proposalDTO.getGurdianceName());
+            child.setRelationship(proposalDTO.getChildRelationship());
+
+            child.setInsuredPerson(insuredPerson);
+
+            childRepository.save(child);
+        }
+
+        InboundProposal inboundProposal = new InboundProposal();
+        inboundProposal.setPolicyEndDate(proposalDTO.getPolicyEndDate());
+        inboundProposal.setAge(proposalDTO.getAge());
+        inboundProposal.setArrivalDate(proposalDTO.getArrivalDate());
+        inboundProposal.setCertificateNo("Sample No");
+        inboundProposal.setCoveragePlan(proposalDTO.getCoveragePlan());
+        inboundProposal.setInsuredName(proposalDTO.getInsuredPersonName());
+        inboundProposal.setPassportIssuedDate(proposalDTO.getPassportIssuedDate());
+        inboundProposal.setPassportNo(proposalDTO.getPassportNo());
+        inboundProposal.setPhoneNo(proposalDTO.getInsuredPersonPhNo());
+        inboundProposal.setPolicyStartDate(proposalDTO.getPolicyStartDate());
+        inboundProposal.setPremiumRate(proposalDTO.getPremiumRate());
+        inboundProposal.setServiceFees(proposalDTO.getServiceFees());
+        inboundProposal.setSubmittedDate(proposalDTO.getSubmittedDate());
+        inboundProposal.setPassportIssuedCountry(proposalDTO.getPassportIssuedCountry());
+
+
+        Agent agent = agentRepository.findAgentByLicenceNo(proposalDTO.getLicenceNo());
+        inboundProposal.setAgent(agent);
+
+        inboundProposal.setBeneficiary(beneficiary);
+        inboundProposal.setChild(child);
+        inboundProposal.setInsuredPerson(insuredPerson);
+
+        Country country = countryRepository.findCountryByNameIgnoreCase(proposalDTO.getJourneyFrom());
+        inboundProposal.setJourneyfrom(country);
+
+        inboundProposalRepository.save(inboundProposal);
     }
+
 
 
 }
