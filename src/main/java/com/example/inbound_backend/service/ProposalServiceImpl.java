@@ -118,7 +118,7 @@ public class ProposalServiceImpl implements ProposalService{
         inboundProposal.setInsuredName(proposalDTO.getInsuredPersonName());
         inboundProposal.setPassportIssuedDate(proposalDTO.getPassportIssuedDate());
         inboundProposal.setPassportNo(proposalDTO.getPassportNo());
-        inboundProposal.setPhoneNo(proposalDTO.getInsuredPersonPhNo());
+        inboundProposal.setPhoneNo(proposalDTO.getPhoneNo());
         inboundProposal.setPolicyStartDate(proposalDTO.getPolicyStartDate());
         inboundProposal.setPolicyEndDate(proposalDTO.getPolicyEndDate());
         inboundProposal.setPremiumRate(proposalDTO.getPremiumRate());
