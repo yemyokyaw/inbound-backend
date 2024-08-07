@@ -27,7 +27,7 @@ public class InsuredPerson extends BaseEntity {
     private String localAddress;
     private String foreignAddress;
     private String email;
-    private int phoneNo;
+    private String phoneNo;
     private String passportNo;
     private LocalDate passportIssuedDate;
     private Boolean isChild;

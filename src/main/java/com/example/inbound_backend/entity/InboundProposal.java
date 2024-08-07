@@ -35,7 +35,7 @@ public class InboundProposal extends BaseEntity{
     private LocalDate passportIssuedDate;
     private int age;
     private String insuredName;
-    private int phoneNo;
+    private String phoneNo;
 
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)

@@ -13,7 +13,7 @@ public class ProposalDTO {
     private String certificateNo;
 //    private String name;
     private int age;
-    private int phoneNo;
+    private String phoneNo;
     private int coveragePlan;
     private int premiumRate;
     private LocalDate submittedDate;
@@ -31,7 +31,7 @@ public class ProposalDTO {
     private String nin;
     private String address;
     private String beneficiaryEmail;
-    private int beneficiaryPhNo;
+    private String beneficiaryPhNo;
     private String relationship;
 
     //insuredPerson
@@ -41,7 +41,7 @@ public class ProposalDTO {
     private String localaddress;
     private String foreignAddress;
     private String insuredPersonEmail;
-    private int insuredPersonPhNo;
+    private String insuredPersonPhNo;
     private LocalDate passportIssuedDate;
     private Boolean isChild;
     private String insuredPersonPassportno;
@@ -57,6 +57,10 @@ public class ProposalDTO {
     private String licenceNo;
     //country
     private String journeyFrom;
+    private String passportCountry;
+    private String residentCountry;
+    private String benefiCountry;
+
 
 
 }

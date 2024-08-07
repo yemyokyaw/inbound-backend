@@ -58,13 +58,15 @@ public class ProposalServiceImpl implements ProposalService{
     public void createProposal(ProposalDTO proposalDTO) {
         Beneficiary beneficiary = new Beneficiary();
         beneficiary.setName(proposalDTO.getBeneficiaryName());
-        beneficiary.setGender(proposalDTO.getBeneficiaryGender());
         beneficiary.setDob(proposalDTO.getBeneficiarydob());
         beneficiary.setNin(proposalDTO.getNin());
         beneficiary.setAddress(proposalDTO.getAddress());
         beneficiary.setPhoneNo(proposalDTO.getBeneficiaryPhNo());
         beneficiary.setRelationship(proposalDTO.getRelationship());
         beneficiary.setEmail(proposalDTO.getBeneficiaryEmail());
+
+        Country c1 = countryRepository.findCountryByNameIgnoreCase(proposalDTO.getBenefiCountry());
+        beneficiary.setResidentCountry(c1);
 
         beneficiaryRepository.save(beneficiary);
 
@@ -78,9 +80,16 @@ public class ProposalServiceImpl implements ProposalService{
         insuredPerson.setPhoneNo(proposalDTO.getInsuredPersonPhNo());
         insuredPerson.setPassportNo(proposalDTO.getPassportNo());
         insuredPerson.setPassportIssuedDate(proposalDTO.getPassportIssuedDate());
+        insuredPerson.setPassportNo(proposalDTO.getPassportNo());
         insuredPerson.setIsChild(proposalDTO.getIsChild());
 
         insuredPerson.setBeneficiary(beneficiary);
+        Country country2 = countryRepository.findCountryByNameIgnoreCase(proposalDTO.getResidentCountry());
+        insuredPerson.setResidentCountry(country2);
+
+        Country c = countryRepository.findCountryByNameIgnoreCase(proposalDTO.getPassportCountry());
+        insuredPerson.setPassportIssuedCountry(c);
+
 
         insuredPersonRepository.save(insuredPerson);
 
@@ -102,7 +111,6 @@ public class ProposalServiceImpl implements ProposalService{
         }
 
         InboundProposal inboundProposal = new InboundProposal();
-        inboundProposal.setPolicyEndDate(proposalDTO.getPolicyEndDate());
         inboundProposal.setAge(proposalDTO.getAge());
         inboundProposal.setArrivalDate(proposalDTO.getArrivalDate());
         inboundProposal.setCertificateNo("Sample No");
@@ -112,6 +120,7 @@ public class ProposalServiceImpl implements ProposalService{
         inboundProposal.setPassportNo(proposalDTO.getPassportNo());
         inboundProposal.setPhoneNo(proposalDTO.getInsuredPersonPhNo());
         inboundProposal.setPolicyStartDate(proposalDTO.getPolicyStartDate());
+        inboundProposal.setPolicyEndDate(proposalDTO.getPolicyEndDate());
         inboundProposal.setPremiumRate(proposalDTO.getPremiumRate());
         inboundProposal.setServiceFees(proposalDTO.getServiceFees());
         inboundProposal.setSubmittedDate(proposalDTO.getSubmittedDate());

@@ -8,6 +8,7 @@ import java.util.List;
 public interface CountryRepository extends JpaRepository<Country,String> {
     List<Country> findAll();
     Country findCountryByNameIgnoreCase(String name);
+//    Country findCountryById(String id, String residentCountryId);
 
 
 }

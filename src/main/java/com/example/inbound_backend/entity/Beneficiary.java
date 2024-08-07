@@ -23,12 +23,11 @@ public class Beneficiary extends BaseEntity{
     @Column(name = "id")
     private String id;
     private String name;
-    private String gender;
     private LocalDate dob;
     private String nin;
     private String address;
     private String email;
-    private int phoneNo;
+    private String phoneNo;
     private String relationship;
 
     @ManyToOne(cascade = {
