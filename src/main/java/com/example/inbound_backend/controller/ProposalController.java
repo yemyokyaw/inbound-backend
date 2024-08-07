@@ -16,16 +16,14 @@ public class ProposalController {
     private ProposalService proposalService;
 
     @PostMapping("/proposal/enquiry")
-    public List<ProposalDTO> findall(@ModelAttribute ProposalDTO proposalDTO) throws Exception{
+    public List<ProposalDTO> findall(@ModelAttribute ProposalDTO proposalDTO) throws Exception {
         return proposalService.findAllProposal(proposalDTO);
     }
 
     @PostMapping("/proposal")
-    public ResponseEntity<String> proposalCreate(@ModelAttribute ProposalDTO proposalDTO) throws Exception{
+    public ResponseEntity<String> proposalCreate(@ModelAttribute ProposalDTO proposalDTO) throws Exception {
         proposalService.createProposal(proposalDTO);
         return ResponseEntity.ok("Proposal Created");
 
     }
-
-
 }

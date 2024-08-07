@@ -1,5 +1,6 @@
 package com.example.inbound_backend.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -9,6 +10,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @ToString
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ProposalDTO {
     private String certificateNo;
 //    private String name;
@@ -55,6 +57,7 @@ public class ProposalDTO {
 
     //agnet
     private String licenceNo;
+    private String agentName;
     //country
     private String journeyFrom;
     private String passportCountry;

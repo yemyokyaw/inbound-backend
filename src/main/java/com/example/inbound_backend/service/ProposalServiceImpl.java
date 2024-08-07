@@ -46,8 +46,21 @@ public class ProposalServiceImpl implements ProposalService{
            proposalDTO.setPremiumRate(p.getPremiumRate());
            proposalDTO.setSubmittedDate(p.getSubmittedDate());
            proposalDTO.setPassportNo(p.getPassportNo());
-           proposalDTOList.add(proposalDTO);
+           proposalDTO.setInsuredPersondob(p.getInsuredPerson().getDob());
+           proposalDTO.setPassportIssuedCountry(p.getPassportIssuedCountry());
+           proposalDTO.setIsChild(p.getInsuredPerson().getIsChild());
+           if (p.getAgent() != null){
+               proposalDTO.setAgentName(p.getAgent().getName());
+           }
 
+           if(p.getChild() != null){
+               proposalDTO.setChildName(p.getChild().getName());
+               proposalDTO.setChildDob(p.getChild().getDob());
+           }
+
+           proposalDTO.setJourneyFrom(p.getJourneyfrom().getName());
+
+           proposalDTOList.add(proposalDTO);
 
        }
        return proposalDTOList;
