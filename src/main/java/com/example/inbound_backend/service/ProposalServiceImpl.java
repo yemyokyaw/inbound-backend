@@ -77,7 +77,7 @@ public class ProposalServiceImpl implements ProposalService{
         insuredPerson.setLocalAddress(proposalDTO.getLocaladdress());
         insuredPerson.setForeignAddress(proposalDTO.getForeignAddress());
         insuredPerson.setEmail(proposalDTO.getInsuredPersonEmail());
-        insuredPerson.setPhoneNo(proposalDTO.getInsuredPersonPhNo());
+        insuredPerson.setPhoneNo(proposalDTO.getPhoneNo());
         insuredPerson.setPassportNo(proposalDTO.getPassportNo());
         insuredPerson.setPassportIssuedDate(proposalDTO.getPassportIssuedDate());
         insuredPerson.setPassportNo(proposalDTO.getPassportNo());
@@ -124,7 +124,7 @@ public class ProposalServiceImpl implements ProposalService{
         inboundProposal.setPremiumRate(proposalDTO.getPremiumRate());
         inboundProposal.setServiceFees(proposalDTO.getServiceFees());
         inboundProposal.setSubmittedDate(proposalDTO.getSubmittedDate());
-        inboundProposal.setPassportIssuedCountry(proposalDTO.getPassportIssuedCountry());
+        inboundProposal.setPassportIssuedCountry(proposalDTO.getPassportCountry());
 
 
         Agent agent = agentRepository.findAgentByLicenceNo(proposalDTO.getLicenceNo());
