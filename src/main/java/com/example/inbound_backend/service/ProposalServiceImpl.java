@@ -3,10 +3,17 @@ package com.example.inbound_backend.service;
 import com.example.inbound_backend.dto.ProposalDTO;
 import com.example.inbound_backend.entity.*;
 import com.example.inbound_backend.repository.*;
+import com.fasterxml.jackson.databind.DatabindException;
 import jakarta.transaction.Transactional;
+import org.apache.logging.log4j.CloseableThreadContext;
 import org.springframework.stereotype.Service;
 
+import javax.xml.crypto.Data;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 @Service
 public class ProposalServiceImpl implements ProposalService{
@@ -126,7 +133,7 @@ public class ProposalServiceImpl implements ProposalService{
         InboundProposal inboundProposal = new InboundProposal();
         inboundProposal.setAge(proposalDTO.getAge());
         inboundProposal.setArrivalDate(proposalDTO.getArrivalDate());
-        inboundProposal.setCertificateNo("Sample No");
+        inboundProposal.setCertificateNo(generateCertificateNo());
         inboundProposal.setCoveragePlan(proposalDTO.getCoveragePlan());
         inboundProposal.setInsuredName(proposalDTO.getInsuredPersonName());
         inboundProposal.setPassportIssuedDate(proposalDTO.getPassportIssuedDate());
@@ -153,6 +160,12 @@ public class ProposalServiceImpl implements ProposalService{
         inboundProposalRepository.save(inboundProposal);
     }
 
+    private String generateCertificateNo() {
+        LocalDate now = LocalDate.now();
+        String year = now.format(DateTimeFormatter.ofPattern("yy"));
+        String month = now.format(DateTimeFormatter.ofPattern("MM"));
+        return "ITA/" + year + month + "/" + Instant.now().toEpochMilli();
+    }
 
 
 }
