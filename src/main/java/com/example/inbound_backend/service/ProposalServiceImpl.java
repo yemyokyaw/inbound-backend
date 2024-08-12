@@ -3,17 +3,12 @@ package com.example.inbound_backend.service;
 import com.example.inbound_backend.dto.ProposalDTO;
 import com.example.inbound_backend.entity.*;
 import com.example.inbound_backend.repository.*;
-import com.fasterxml.jackson.databind.DatabindException;
 import jakarta.transaction.Transactional;
-import org.apache.logging.log4j.CloseableThreadContext;
 import org.springframework.stereotype.Service;
-
-import javax.xml.crypto.Data;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 @Service
 public class ProposalServiceImpl implements ProposalService{
@@ -39,7 +34,7 @@ public class ProposalServiceImpl implements ProposalService{
 
     @Override
     public List<ProposalDTO> findAllProposal(ProposalDTO propoDTO) throws Exception {
-       List<InboundProposal> proposals = inboundProposalRepository.findAllByAndPassportNoAndPassportIssuedCountry(propoDTO.getPassportNo(),propoDTO.getPassportIssuedCountry());
+       List<InboundProposal> proposals = inboundProposalRepository.findAllByPassportNoAndPassportIssuedCountry(propoDTO.getPassportNo(),propoDTO.getPassportIssuedCountry());
        if (proposals == null) throw new Exception("Proposal not found");
 
        List<ProposalDTO> proposalDTOList = new ArrayList<>();
