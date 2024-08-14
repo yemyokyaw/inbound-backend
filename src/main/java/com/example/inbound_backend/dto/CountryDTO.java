@@ -8,6 +8,6 @@ import lombok.ToString;
 @Setter
 @ToString
 public class CountryDTO {
-    private String name;
+    private String countryName;
     private String countryCode;
 }

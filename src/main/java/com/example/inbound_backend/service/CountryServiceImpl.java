@@ -25,7 +25,7 @@ public class CountryServiceImpl implements CountryService{
         for(Country c : countryList){
             CountryDTO countryDTO =new CountryDTO();
 
-            countryDTO.setName(c.getName());
+            countryDTO.setCountryName(c.getCountryName());
             countryDTO.setCountryCode(c.getCountryCode());
 
             countryDTOList.add(countryDTO);

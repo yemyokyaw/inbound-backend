@@ -20,15 +20,14 @@ public class Beneficiary extends BaseEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "id")
-    private String id;
-    private String name;
-    private LocalDate dob;
+    private String beneficiaryId;
+    private String beneficiaryName;
+    private LocalDate beneficiaryDob;
     private String nin;
-    private String address;
-    private String email;
-    private String phoneNo;
-    private String relationship;
+    private String beneficiaryAddress;
+    private String beneficiaryEmail;
+    private String beneficiaryPhoneNo;
+    private String beneficiaryRelationship;
 
     @ManyToOne(cascade = {
             CascadeType.DETACH, CascadeType.MERGE,

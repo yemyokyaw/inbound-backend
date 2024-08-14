@@ -17,13 +17,8 @@ import java.util.List;
 public class Country extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "id")
-    private String id;
-
-    @Column(name = "name")
-    private String name;
-
-    @Column(name = "country_code")
+    private String countryId;
+    private String countryName;
     private String countryCode;
 
     @OneToMany(mappedBy = "passportIssuedCountry", fetch = FetchType.EAGER, cascade = {

@@ -4,6 +4,7 @@ import com.example.inbound_backend.dto.CountryDTO;
 import com.example.inbound_backend.entity.Country;
 import com.example.inbound_backend.service.CountryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,7 +17,7 @@ public class CountryController {
     private CountryService countryService;
 
     @GetMapping("/country")
-    public List<CountryDTO> findAllCountry () throws Exception {
-        return countryService.getAllCountry();
+    public ResponseEntity<List<CountryDTO>> findAllCountry () throws Exception {
+        return ResponseEntity.ok(countryService.getAllCountry());
     }
 }

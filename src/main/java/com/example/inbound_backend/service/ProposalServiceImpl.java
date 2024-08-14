@@ -1,6 +1,7 @@
 package com.example.inbound_backend.service;
 
 import com.example.inbound_backend.dto.ProposalDTO;
+import com.example.inbound_backend.dto.ResponseDTO;
 import com.example.inbound_backend.entity.*;
 import com.example.inbound_backend.repository.*;
 import jakarta.transaction.Transactional;
@@ -48,19 +49,19 @@ public class ProposalServiceImpl implements ProposalService{
            proposalDTO.setPremiumRate(p.getPremiumRate());
            proposalDTO.setSubmittedDate(p.getSubmittedDate());
            proposalDTO.setPassportNo(p.getPassportNo());
-           proposalDTO.setInsuredPersondob(p.getInsuredPerson().getDob());
+           proposalDTO.setInsuredPersondob(p.getInsuredPerson().getInsuredDob());
            proposalDTO.setPassportIssuedCountry(p.getPassportIssuedCountry());
            proposalDTO.setIsChild(p.getInsuredPerson().getIsChild());
            if (p.getAgent() != null){
-               proposalDTO.setAgentName(p.getAgent().getName());
+               proposalDTO.setAgentName(p.getAgent().getAgentName());
            }
 
            if(p.getChild() != null){
-               proposalDTO.setChildName(p.getChild().getName());
-               proposalDTO.setChildDob(p.getChild().getDob());
+               proposalDTO.setChildName(p.getChild().getChildName());
+               proposalDTO.setChildDob(p.getChild().getChildDob());
            }
 
-           proposalDTO.setJourneyFrom(p.getJourneyfrom().getName());
+           proposalDTO.setJourneyFrom(p.getJourneyfrom().getCountryName());
 
            proposalDTOList.add(proposalDTO);
 
@@ -70,39 +71,137 @@ public class ProposalServiceImpl implements ProposalService{
 
     @Override
     @Transactional
-    public void createProposal(ProposalDTO proposalDTO) {
-        Beneficiary beneficiary = new Beneficiary();
-        beneficiary.setName(proposalDTO.getBeneficiaryName());
-        beneficiary.setDob(proposalDTO.getBeneficiarydob());
-        beneficiary.setNin(proposalDTO.getNin());
-        beneficiary.setAddress(proposalDTO.getAddress());
-        beneficiary.setPhoneNo(proposalDTO.getBeneficiaryPhNo());
-        beneficiary.setRelationship(proposalDTO.getRelationship());
-        beneficiary.setEmail(proposalDTO.getBeneficiaryEmail());
+    public ResponseDTO createProposal(ProposalDTO proposalDTO) {
+        ResponseDTO res = new ResponseDTO();
 
-        Country c1 = countryRepository.findCountryByNameIgnoreCase(proposalDTO.getBenefiCountry());
+        Beneficiary beneficiary = new Beneficiary();
+        if(proposalDTO.getBeneficiaryName() == null) {
+            res.setMessage("Beneficiary Name is required");
+            res.setStatus("400");
+            return res;
+        }
+        beneficiary.setBeneficiaryName(proposalDTO.getBeneficiaryName());
+
+        if(proposalDTO.getBeneficiarydob() == null) {
+            res.setMessage("Beneficiary Dob is required");
+            res.setStatus("400");
+            return res;
+        }
+        beneficiary.setBeneficiaryDob(proposalDTO.getBeneficiarydob());
+
+        beneficiary.setNin(proposalDTO.getNin());
+
+        if(proposalDTO.getAddress() == null) {
+            res.setMessage("Beneficiary Address is required");
+            res.setStatus("400");
+            return res;
+        }
+        beneficiary.setBeneficiaryAddress(proposalDTO.getAddress());
+
+        if(proposalDTO.getBeneficiaryPhNo() == null) {
+            res.setMessage("Beneficiary Phone Number is required");
+            res.setStatus("400");
+            return res;
+        }
+        beneficiary.setBeneficiaryPhoneNo(proposalDTO.getBeneficiaryPhNo());
+
+        if(proposalDTO.getRelationship() == null) {
+            res.setMessage("Beneficiary relationship is required");
+            res.setStatus("400");
+            return res;
+        }
+        beneficiary.setBeneficiaryRelationship(proposalDTO.getRelationship());
+
+        beneficiary.setBeneficiaryEmail(proposalDTO.getBeneficiaryEmail());
+
+        Country c1 = countryRepository.findCountryByCountryNameIgnoreCase(proposalDTO.getBenefiCountry());
+        if(proposalDTO.getBenefiCountry() == null) {
+            res.setMessage("Beneficiary Resident country is required");
+            res.setStatus("400");
+            return res;
+        }
         beneficiary.setResidentCountry(c1);
 
         beneficiaryRepository.save(beneficiary);
 
+        //insured person
         InsuredPerson insuredPerson = new InsuredPerson();
-        insuredPerson.setName(proposalDTO.getInsuredPersonName());
-        insuredPerson.setDob(proposalDTO.getInsuredPersondob());
-        insuredPerson.setGender(proposalDTO.getInsuredPersongender());
-        insuredPerson.setLocalAddress(proposalDTO.getLocaladdress());
-        insuredPerson.setForeignAddress(proposalDTO.getForeignAddress());
-        insuredPerson.setEmail(proposalDTO.getInsuredPersonEmail());
-        insuredPerson.setPhoneNo(proposalDTO.getPhoneNo());
-        insuredPerson.setPassportNo(proposalDTO.getPassportNo());
-        insuredPerson.setPassportIssuedDate(proposalDTO.getPassportIssuedDate());
-        insuredPerson.setPassportNo(proposalDTO.getPassportNo());
-        insuredPerson.setIsChild(proposalDTO.getIsChild());
+        if(proposalDTO.getInsuredPersonName() == null) {
+            res.setMessage("Insured Person Name is required");
+            res.setStatus("400");
+            return res;
+        }
+        insuredPerson.setInsuredName(proposalDTO.getInsuredPersonName());
 
+        if(proposalDTO.getInsuredPersondob() == null) {
+            res.setMessage("Insured Person dob is required");
+            res.setStatus("400");
+            return res;
+        }
+        insuredPerson.setInsuredDob(proposalDTO.getInsuredPersondob());
+
+        if(proposalDTO.getInsuredPersongender() == null) {
+            res.setMessage("Insured Person Gender is required");
+            res.setStatus("400");
+            return res;
+        }
+        insuredPerson.setInsuredGender(proposalDTO.getInsuredPersongender());
+
+        insuredPerson.setLocalAddress(proposalDTO.getLocaladdress());
+
+        if(proposalDTO.getForeignAddress() == null) {
+            res.setMessage("Insured Person foreign address is required");
+            res.setStatus("400");
+            return res;
+        }
+        insuredPerson.setForeignAddress(proposalDTO.getForeignAddress());
+
+        insuredPerson.setInsuredEmail(proposalDTO.getInsuredPersonEmail());
+
+        if(proposalDTO.getPhoneNo() == null) {
+            res.setMessage("Insured Person Phone Number is required");
+            res.setStatus("400");
+            return res;
+        }
+        insuredPerson.setInsuredPhoneNo(proposalDTO.getPhoneNo());
+
+        if(proposalDTO.getPassportNo() == null) {
+            res.setMessage("Insured Person Passport is required");
+            res.setStatus("400");
+            return res;
+        }
+        insuredPerson.setPassportNo(proposalDTO.getPassportNo());
+
+        if(proposalDTO.getPassportIssuedDate() == null) {
+            res.setMessage("Insured Person Passport Issued Date is required");
+            res.setStatus("400");
+            return res;
+        }
+        insuredPerson.setPassportIssuedDate(proposalDTO.getPassportIssuedDate());
+
+        if(proposalDTO.getInsuredPersonName() == null) {
+            res.setMessage("Insured Person Name is required");
+            res.setStatus("400");
+            return res;
+        }
+//        insuredPerson.setPassportNo(proposalDTO.getPassportNo());
+        insuredPerson.setIsChild(proposalDTO.getIsChild());
         insuredPerson.setBeneficiary(beneficiary);
-        Country country2 = countryRepository.findCountryByNameIgnoreCase(proposalDTO.getResidentCountry());
+
+        Country country2 = countryRepository.findCountryByCountryNameIgnoreCase(proposalDTO.getResidentCountry());
+        if(proposalDTO.getResidentCountry() == null) {
+            res.setMessage("Insured Person resident country is required");
+            res.setStatus("400");
+            return res;
+        }
         insuredPerson.setResidentCountry(country2);
 
-        Country c = countryRepository.findCountryByNameIgnoreCase(proposalDTO.getPassportCountry());
+        Country c = countryRepository.findCountryByCountryNameIgnoreCase(proposalDTO.getPassportIssuedCountry());
+        if(proposalDTO.getPassportIssuedCountry() == null) {
+            res.setMessage("Insured Person Passport Issued Country is required");
+            res.setStatus("400");
+            return res;
+        }
         insuredPerson.setPassportIssuedCountry(c);
 
 
@@ -114,11 +213,40 @@ public class ProposalServiceImpl implements ProposalService{
         Child child = null;
         if (proposalDTO.getIsChild()) {
             child = new Child();
-            child.setName(proposalDTO.getChildName());
-            child.setDob(proposalDTO.getChildDob());
-            child.setGender(proposalDTO.getChildGender());
+            if(proposalDTO.getChildName() == null) {
+                res.setMessage("Child Name is required");
+                res.setStatus("400");
+                return res;
+            }
+            child.setChildName(proposalDTO.getChildName());
+
+            if(proposalDTO.getChildDob() == null) {
+                res.setMessage("Child dob is required");
+                res.setStatus("400");
+                return res;
+            }
+            child.setChildDob(proposalDTO.getChildDob());
+
+            if(proposalDTO.getChildGender() == null) {
+                res.setMessage("Child gender is required");
+                res.setStatus("400");
+                return res;
+            }
+            child.setChildGender(proposalDTO.getChildGender());
+
+            if(proposalDTO.getGurdianceName() == null) {
+                res.setMessage("Child Gurdiance Name is required");
+                res.setStatus("400");
+                return res;
+            }
             child.setGurdianceName(proposalDTO.getGurdianceName());
-            child.setRelationship(proposalDTO.getChildRelationship());
+
+            if(proposalDTO.getChildRelationship() == null) {
+                res.setMessage("Child Relationship is required");
+                res.setStatus("400");
+                return res;
+            }
+            child.setChildRelationship(proposalDTO.getChildRelationship());
 
             child.setInsuredPerson(insuredPerson);
 
@@ -127,19 +255,62 @@ public class ProposalServiceImpl implements ProposalService{
 
         InboundProposal inboundProposal = new InboundProposal();
         inboundProposal.setAge(proposalDTO.getAge());
+
+        if(proposalDTO.getArrivalDate() == null) {
+            res.setMessage("Arrival Date is required");
+            res.setStatus("400");
+            return res;
+        }
         inboundProposal.setArrivalDate(proposalDTO.getArrivalDate());
-        inboundProposal.setCertificateNo(generateCertificateNo());
+        inboundProposal.setCertificateNo(generateCertificateNo(inboundProposal));
+
+        if(proposalDTO.getCoveragePlan() == 0) {
+            res.setMessage("Coverage Plan is required");
+            res.setStatus("400");
+            return res;
+        }
         inboundProposal.setCoveragePlan(proposalDTO.getCoveragePlan());
+
         inboundProposal.setInsuredName(proposalDTO.getInsuredPersonName());
         inboundProposal.setPassportIssuedDate(proposalDTO.getPassportIssuedDate());
         inboundProposal.setPassportNo(proposalDTO.getPassportNo());
         inboundProposal.setPhoneNo(proposalDTO.getPhoneNo());
+
+        if(proposalDTO.getPolicyStartDate() == null) {
+            res.setMessage("Policy Start Date is required");
+            res.setStatus("400");
+            return res;
+        }
         inboundProposal.setPolicyStartDate(proposalDTO.getPolicyStartDate());
+
+        if(proposalDTO.getPolicyEndDate() == null) {
+            res.setMessage("Policy End Date is required");
+            res.setStatus("400");
+            return res;
+        }
         inboundProposal.setPolicyEndDate(proposalDTO.getPolicyEndDate());
+
+        if(proposalDTO.getPremiumRate() == 0) {
+            res.setMessage("Premium Rate is required");
+            res.setStatus("400");
+            return res;
+        }
         inboundProposal.setPremiumRate(proposalDTO.getPremiumRate());
+
+        if(proposalDTO.getServiceFees() == null) {
+            res.setMessage("Service Fees is required");
+            res.setStatus("400");
+            return res;
+        }
         inboundProposal.setServiceFees(proposalDTO.getServiceFees());
+
+        if(proposalDTO.getSubmittedDate() == null) {
+            res.setMessage("Submitted Date is required");
+            res.setStatus("400");
+            return res;
+        }
         inboundProposal.setSubmittedDate(proposalDTO.getSubmittedDate());
-        inboundProposal.setPassportIssuedCountry(proposalDTO.getPassportCountry());
+        inboundProposal.setPassportIssuedCountry(proposalDTO.getPassportIssuedCountry());
 
 
         Agent agent = agentRepository.findAgentByLicenceNo(proposalDTO.getLicenceNo());
@@ -149,17 +320,26 @@ public class ProposalServiceImpl implements ProposalService{
         inboundProposal.setChild(child);
         inboundProposal.setInsuredPerson(insuredPerson);
 
-        Country country = countryRepository.findCountryByNameIgnoreCase(proposalDTO.getJourneyFrom());
+        Country country = countryRepository.findCountryByCountryNameIgnoreCase(proposalDTO.getJourneyFrom());
+        if(proposalDTO.getJourneyFrom() == null) {
+            res.setMessage("Journey From is required");
+            res.setStatus("400");
+            return res;
+        }
         inboundProposal.setJourneyfrom(country);
 
         inboundProposalRepository.save(inboundProposal);
+
+        res.setMessage("Proposal Created");
+        res.setStatus("201");
+        return res;
     }
 
-    private String generateCertificateNo() {
+    private String generateCertificateNo(InboundProposal inboundProposal) {
         LocalDate now = LocalDate.now();
-        String year = now.format(DateTimeFormatter.ofPattern("yy"));
+        String year = now.format(DateTimeFormatter.ofPattern("yyyy"));
         String month = now.format(DateTimeFormatter.ofPattern("MM"));
-        return "ITA/" + year + month + "/" + Instant.now().toEpochMilli();
+        return "ITA/" + inboundProposal.getId() + month + "-" + year;
     }
 
 

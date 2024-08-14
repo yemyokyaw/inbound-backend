@@ -13,7 +13,6 @@ import java.time.LocalDate;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ProposalDTO {
     private String certificateNo;
-//    private String name;
     private int age;
     private String phoneNo;
     private int coveragePlan;
@@ -55,12 +54,12 @@ public class ProposalDTO {
     private String gurdianceName;
     private String childRelationship;
 
-    //agnet
+    //agent
     private String licenceNo;
     private String agentName;
+    private String password;
     //country
     private String journeyFrom;
-    private String passportCountry;
     private String residentCountry;
     private String benefiCountry;
 

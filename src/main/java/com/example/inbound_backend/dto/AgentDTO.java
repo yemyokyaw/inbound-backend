@@ -9,6 +9,6 @@ import lombok.ToString;
 @ToString
 public class AgentDTO {
     private String licenceNo;
-    private String name;
+    private String agentName;
     private String password;
 }

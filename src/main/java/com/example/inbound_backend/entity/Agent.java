@@ -17,10 +17,9 @@ import java.util.List;
 public class Agent extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "id")
-    private String id;
+    private String agentId;
     private String licenceNo;
-    private String name;
+    private String agentName;
     private String password;
 
     @OneToMany(mappedBy = "agent", fetch = FetchType.EAGER, cascade = {

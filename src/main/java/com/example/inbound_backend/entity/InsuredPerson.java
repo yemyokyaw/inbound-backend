@@ -19,15 +19,14 @@ import java.util.Date;
 public class InsuredPerson extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "id")
-    private String id;
-    private String name;
-    private LocalDate dob;
-    private String gender;
+    private String insuredId;
+    private String insuredName;
+    private LocalDate insuredDob;
+    private String insuredGender;
     private String localAddress;
     private String foreignAddress;
-    private String email;
-    private String phoneNo;
+    private String insuredEmail;
+    private String insuredPhoneNo;
     private String passportNo;
     private LocalDate passportIssuedDate;
     private Boolean isChild;

@@ -3,6 +3,7 @@ package com.example.inbound_backend.controller;
 import com.example.inbound_backend.dto.AgentDTO;
 import com.example.inbound_backend.service.AgentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -14,8 +15,8 @@ public class AgentController {
     private AgentService agentService;
 
     @PostMapping("/agent")
-   public AgentDTO findAgentByLicenceNo (@ModelAttribute AgentDTO agentDTO) throws Exception {
-        return agentService.getAgentByLicence(agentDTO);
+   public ResponseEntity<?> findAgentByLicenceNo (@ModelAttribute AgentDTO agentDTO) throws Exception {
+        return ResponseEntity.ok(agentService.getAgentByLicence(agentDTO));
     }
 
 

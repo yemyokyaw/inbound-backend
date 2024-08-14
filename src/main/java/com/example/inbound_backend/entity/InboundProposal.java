@@ -18,8 +18,9 @@ import java.util.Date;
 @Table(name="inbound_proposal")
 public class InboundProposal extends BaseEntity{
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private String id;
+    @SequenceGenerator(name = "mySeq", sequenceName = "mySeq", allocationSize = 1, initialValue = 1001)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "mySeq")
+    private int id;
     private LocalDate arrivalDate;
     @Column(columnDefinition = "varchar(255) default 'MYANMAR'")
     private String journeyTo = "MYANMAR" ;
@@ -65,7 +66,5 @@ public class InboundProposal extends BaseEntity{
     @JsonBackReference
     @JoinColumn(name = "journey_from")
     private Country journeyfrom;
-
-
 
 }
