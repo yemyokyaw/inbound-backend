@@ -6,7 +6,6 @@ import com.example.inbound_backend.entity.*;
 import com.example.inbound_backend.repository.*;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
-import java.time.Instant;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -62,6 +61,7 @@ public class ProposalServiceImpl implements ProposalService{
            }
 
            proposalDTO.setJourneyFrom(p.getJourneyfrom().getCountryName());
+           proposalDTO.setCreatedAt(p.getCreatedAt());
 
            proposalDTOList.add(proposalDTO);
 
@@ -339,7 +339,18 @@ public class ProposalServiceImpl implements ProposalService{
         LocalDate now = LocalDate.now();
         String year = now.format(DateTimeFormatter.ofPattern("yyyy"));
         String month = now.format(DateTimeFormatter.ofPattern("MM"));
-        return "ITA/" + inboundProposal.getId() + month + "-" + year;
+        Long certifiSeq = inboundProposalRepository.getNextSequenceValue();
+        String numofzero = "";
+
+        if (certifiSeq < 10) {
+            numofzero = "000";
+        } else if (certifiSeq < 100) {
+            numofzero = "00";
+        } else if (certifiSeq < 1000) {
+            numofzero = "0";
+        }
+
+        return "ITA/" + numofzero + certifiSeq + "/" + month + "-" + year;
     }
 
 

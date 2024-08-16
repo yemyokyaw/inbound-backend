@@ -6,6 +6,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -63,6 +64,6 @@ public class ProposalDTO {
     private String residentCountry;
     private String benefiCountry;
 
-
+    private LocalDateTime createdAt;
 
 }

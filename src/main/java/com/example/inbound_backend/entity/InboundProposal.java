@@ -18,9 +18,8 @@ import java.util.Date;
 @Table(name="inbound_proposal")
 public class InboundProposal extends BaseEntity{
     @Id
-    @SequenceGenerator(name = "mySeq", sequenceName = "mySeq", allocationSize = 1, initialValue = 1001)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "mySeq")
-    private int id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String id;
     private LocalDate arrivalDate;
     @Column(columnDefinition = "varchar(255) default 'MYANMAR'")
     private String journeyTo = "MYANMAR" ;
